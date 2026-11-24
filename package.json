@@ -1,0 +1,19 @@
+{
+  "name": "unite4ai-axi",
+  "version": "0.1.0",
+  "description": "Agent CLI for Unite4AI benchmark evidence and the research exchange",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=24" },
+  "bin": { "unite4ai-axi": "bin/unite4ai-axi.mjs" },
+  "files": ["bin/", "src/", "site-pin.json", "command-manifest.json", "skills/"],
+  "repository": { "type": "git", "url": "git+https://github.com/bigshort2022/unite4ai-axi.git" },
+  "homepage": "https://unite4ai.com/exchange",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "skill:generate": "node scripts/generate.mjs",
+    "skill:check": "node scripts/generate.mjs --check"
+  },
+  "dependencies": { "@toon-format/toon": "4.4.0" },
+  "publishConfig": { "access": "public" }
+}

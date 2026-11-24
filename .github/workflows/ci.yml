@@ -1,0 +1,33 @@
+name: CLI verification
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  cli:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.4.4'
+      - run: npm ci --ignore-scripts
+      - run: npm test
+      - run: npm run skill:check
+      - run: npx --yes axi-axi@0.1.0 validate 'node ./bin/unite4ai-axi.mjs' --dir .
+      - name: Smoke-test the installed artifact
+        run: |
+          artifact="$(npm pack --quiet)"
+          scratch="$(mktemp -d)"
+          npm install --prefix "$scratch" --ignore-scripts --no-audit --no-fund "./$artifact"
+          "$scratch/node_modules/.bin/unite4ai-axi" --help
+          "$scratch/node_modules/.bin/unite4ai-axi" prompt /exchange
